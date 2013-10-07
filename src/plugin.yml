@@ -1,0 +1,7 @@
+name: ConsoleScript
+main: consolescript.ConsoleScript
+version: 1.0
+commands:
+   cscript:
+      description: Main ConsoleScript Command
+      usage: /<command> <run/stop/stopall/reload> [script]
