@@ -34,7 +34,7 @@
 	<!-- Resources (the filtering allows us to use project properties in plugin.yml) -->
 	<resources>
       <resource>
-        <directory>src/</directory>
+        <directory>src</directory>
         <filtering>true</filtering>
         <includes>
           <include>plugin.yml</include>
