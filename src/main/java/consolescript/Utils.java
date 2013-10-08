@@ -45,6 +45,7 @@ public class Utils {
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "stop" + ChatColor.AQUA + " <script> - Stop a script");
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "stopall" + ChatColor.AQUA + " - Stop all scripts");
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "reload" + ChatColor.AQUA + " - Reload the config");
+		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "list" + ChatColor.AQUA + " - Lists all scripts");
 	}
 
 	public static void stopAllScripts() {
@@ -75,6 +76,10 @@ public class Utils {
 				Bukkit.broadcastMessage("wtf3");
 			}
 		}, new Long(seconds) * 20L);
+	}
+	
+	public static void noPerms(CommandSender sender){
+		sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
 	}
 	
 	public static void startScript(String scriptname, CommandSender sender) {

@@ -3,11 +3,15 @@ package consolescript;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.google.common.base.Joiner;
 
 public class ConsoleScript extends JavaPlugin {
 
@@ -42,7 +46,7 @@ public class ConsoleScript extends JavaPlugin {
 						sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
 					}
 				}else{
-					sender.sendMessage(Utils.prefixe + "Please specify the script name!");
+					Utils.noPerms(sender);
 				}
 			}else if(com.equalsIgnoreCase("stop")){
 				if(args.length >= 2){
@@ -52,21 +56,30 @@ public class ConsoleScript extends JavaPlugin {
 						sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
 					}
 				}else{
-					sender.sendMessage(Utils.prefixe + "Please specify the script name!");
+					Utils.noPerms(sender);
 				}
 			}else if(com.equalsIgnoreCase("stopall")){
 				if(sender.hasPermission("cscript.stopall")){
 					Utils.stopAllScripts();
 					sender.sendMessage(Utils.prefix + "All scripts stopped!");
 				}else{
-					sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
+					Utils.noPerms(sender);
 				}
 			}else if(com.equalsIgnoreCase("reload")){
 				if(sender.hasPermission("cscript.reload")){
 					reloadConfig();
 					sender.sendMessage(Utils.prefix + "Configuration reloaded!");
 				}else{
-					sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
+					Utils.noPerms(sender);
+				}
+			}else if(com.equalsIgnoreCase("list")){
+				if(sender.hasPermission("cscript.list")){
+					Set<String> list = getConfig().getConfigurationSection("Scripts.").getKeys(false);
+					if(list != null){
+						sender.sendMessage(Utils.prefix + "Available scripts: " + ChatColor.GREEN + Joiner.on(ChatColor.AQUA + ", " + ChatColor.GREEN).join(list));
+					}else{
+						sender.sendMessage(Utils.prefixe + "No scripts defined!");
+					}
 				}
 			}else{
 				Utils.sendHelp(sender);
