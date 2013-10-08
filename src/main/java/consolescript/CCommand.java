@@ -1,6 +1,7 @@
 package consolescript;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CCommand {
 
@@ -8,11 +9,13 @@ public class CCommand {
 	private boolean isDone;
 	public Script script;
 	public CommandSender sender;
+	public Player exec;
 	
-	public CCommand(String command, Script script, CommandSender sender){
+	public CCommand(String command, Script script, CommandSender sender, Player executor){
 		this.script = script;
 		this.sender = sender;
-		this.cmd = Utils.replaceArgs(command, this);
+		this.exec = executor;
+		this.cmd = Utils.populateCommand(command, this);
 	}
 
 	private String argString(){
@@ -39,6 +42,9 @@ public class CCommand {
 	public void execute(){
 		if(!isCondition()){
 			Executor x = new Executor(cmd, this);
+			if(this.exec != null){
+				x.setExecutor(exec);
+			}
 			x.execute();
 		}else{
 			executeCondition();

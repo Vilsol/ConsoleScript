@@ -1,23 +1,33 @@
 package consolescript;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class Executor {
 
 	public String command;
 	public CCommand cc;
 	public int waiter;
+	public Player exec;
 	
 	public Executor(String s, CCommand cc) {
 		command = s;
 		this.cc = cc;
 	}
 	
+	public void setExecutor(Player plr){
+		this.exec = plr;
+	}
+	
 	public void execute() {
 		String com = cc.getCommand().toLowerCase();
 		boolean complete = true;
 		if(!Utils.functionalCommands.contains(com)){
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+			if(this.exec != null){
+				Bukkit.dispatchCommand(exec, command);
+			}else{
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+			}
 			cc.setDone();
 			return;
 		}else{
@@ -43,9 +53,8 @@ public class Executor {
 						if(Utils.doesScriptExist(cc.getArgs()[0])){
 							if(!Utils.isScriptRunning(cc.getArgs()[0])){
 								final Script script = new Script(cc.getArgs()[0], ConsoleScript.plugin);
-								script.run();
-								if(cc.getArgs().length == 2){
-									if(cc.getArgs()[1].toLowerCase().equalsIgnoreCase("wait")){
+								if(cc.getArgs().length > 1){
+									if(Utils.listContains(cc.getArgs(), "wait")){
 										complete = false;
 										waiter = Bukkit.getScheduler().scheduleSyncRepeatingTask(ConsoleScript.plugin, new Runnable(){
 											@Override
@@ -55,9 +64,23 @@ public class Executor {
 													Bukkit.getScheduler().cancelTask(waiter);
 												}
 											}
-										}, 1L, 5L);
+										}, 5L, 5L);
+									}
+									if(cc.getArgs().length == 4){
+										if(cc.getArgs()[1].toLowerCase().equals("as")){
+											if(Bukkit.getPlayer(cc.getArgs()[2]) != null){
+												script.setExecutor(Bukkit.getPlayer(cc.getArgs()[2]));
+											}
+										}
+									}else if(cc.getArgs().length == 3){
+										if(cc.getArgs()[1].toLowerCase().equals("as")){
+											if(Bukkit.getPlayer(cc.getArgs()[2]) != null){
+												script.setExecutor(Bukkit.getPlayer(cc.getArgs()[2]));
+											}
+										}
 									}
 								}
+								script.run();
 							}
 						}
 					}

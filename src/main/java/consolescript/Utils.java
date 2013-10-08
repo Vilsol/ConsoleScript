@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public class Utils {
 
@@ -109,11 +110,35 @@ public class Utils {
 	    return true;
 	}
 
-	public static String replaceArgs(String command, CCommand cc) {
-		if(cc.sender != null){
-			command = command.replaceAll("%s", cc.sender.getName());
+	public static String populateCommand(String command, CCommand cc) {
+		Player plr = null;
+		
+		if(cc.exec != null){
+			plr = cc.exec;
+		}else if(cc.sender != null){
+			if(cc.sender instanceof Player){
+				plr = (Player) cc.sender;
+			}
+			command = command.replaceAll("%p", cc.sender.getName());
+		}else{
+			command = command.replaceAll("%w", Bukkit.getWorlds().get(0).getName());
 		}
+		
+		if(plr != null){
+			command = command.replaceAll("%p", plr.getName());
+			command = command.replaceAll("%w", plr.getWorld().getName());
+		}
+		
 		return command;
+	}
+	
+	public static boolean listContains(String[] list, String match){
+		for(String s : list){
+			if(s.equals(match)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

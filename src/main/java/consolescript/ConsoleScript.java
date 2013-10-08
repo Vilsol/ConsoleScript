@@ -1,10 +1,12 @@
 package consolescript;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConsoleScript extends JavaPlugin {
@@ -18,7 +20,9 @@ public class ConsoleScript extends JavaPlugin {
 	}
 	
 	private void loadConfig() {
-		getConfig().addDefault("Scripts", "test");
+		InputStream defConfigStream = getResource("config.yml");
+    	YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+		getConfig().setDefaults(defConfig);
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}

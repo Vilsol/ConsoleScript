@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Script {
 
@@ -12,6 +13,7 @@ public class Script {
 	private CommandSender sender;
 	private int line;
 	private boolean run;
+	private Player executor;
 	
 	Script(String name, ConsoleScript plugin){
 		this.name = name;
@@ -21,6 +23,10 @@ public class Script {
 		this.commands = plugin.getConfig().getStringList("Scripts." + name + ".Commands");
 	}
 
+	public void setExecutor(Player plr){
+		this.executor = plr;
+	}
+	
 	public void setSender(CommandSender send){
 		this.sender = send;
 	}
@@ -39,7 +45,7 @@ public class Script {
 	public void next(){
 		if(!run) return;
 		if(this.line < commands.size()){
-			CCommand x = new CCommand(commands.get(this.line), this, sender);
+			CCommand x = new CCommand(commands.get(this.line), this, sender, executor);
 			this.line += 1;
 			x.execute();
 		}else{

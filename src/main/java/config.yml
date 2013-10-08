@@ -1,0 +1,19 @@
+Scripts:
+  OpTest:
+    Commands:
+    - run Delayer as %p wait
+    - deop %p
+    - run Delayer wait
+    - op %p
+  Delayer:
+    Commands:
+    - say 5 from %w
+    - delay 1
+    - say 4 from %w
+    - delay 1
+    - say 3 from %w
+    - delay 1
+    - say 2 from %w
+    - delay 1
+    - say 1 from %w
+    - delay 1
