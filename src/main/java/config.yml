@@ -17,3 +17,17 @@ Scripts:
     - delay 1
     - say 1 from %w
     - delay 1
+  PlayerConditions:
+    Commands:
+    - delay 1
+    - if player %p issneaking then say You are sneaking else say You are not sneaking end
+    - if player %p isalive then say You are alive else say You are not alive end
+    - if player %p isonline then say You are online else say You are not online end
+    - if player %p issleeping then say You are sleeping else say You are not sleeping end
+    - if player %p issprinting then say You are sprinting else say You are not sprinting end
+    - if player %p isinvehicle then say You are in a vehichle else say You are not in a vehicle end
+  WorldConditions:
+    Commands:
+    - if world %w israining then say It is raining else say It is not raining end
+    - if world %w isday then say It is daytime else say It is not daytime end
+    - if world %w isnight then say It is nighttime else say It is not nighttime end

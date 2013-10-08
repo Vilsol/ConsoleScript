@@ -1,5 +1,6 @@
 package consolescript;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,6 +11,7 @@ public class CCommand {
 	public Script script;
 	public CommandSender sender;
 	public Player exec;
+	private int waiter;
 	
 	public CCommand(String command, Script script, CommandSender sender, Player executor){
 		this.script = script;
@@ -54,7 +56,7 @@ public class CCommand {
 	public void executeCondition() {
 		ConditionChecker cc = new ConditionChecker(getIf());
 		if(cc.isTrue()){
-			
+			executeThen();
 		}else{
 			if(isCondition(true)){
 				executeElse();
@@ -74,7 +76,7 @@ public class CCommand {
 
 	public String getIf(){
 		if(isCondition()){
-			return cmd.split("then")[0].split("if")[1];
+			return cmd.split("then")[0].split("if")[1].substring(1);
 		}
 		return null;
 	}
@@ -82,9 +84,9 @@ public class CCommand {
 	public String getThen(){
 		if(isCondition()){
 			if(isCondition(true)){
-				return cmd.split("then")[1].split("else")[0];
+				return cmd.split("then")[1].split("else")[0].substring(1);
 			}else{
-				return cmd.split("then")[1].split("end")[0];
+				return cmd.split("then")[1].split("end")[0].substring(1);
 			}
 		}
 		return null;
@@ -92,19 +94,33 @@ public class CCommand {
 	
 	public String getElse(){
 		if(isCondition(true)){
-			return cmd.split("else")[1].split("end")[0];
+			return cmd.split("else")[1].split("end")[0].substring(1);
 		}
 		return null;
 	}
 	
 	public void executeThen(){
-		Executor x = new Executor(getThen(), this);
+		CCommand x = new CCommand(getThen(), null, sender, exec);
 		x.execute();
+		waitUntilDone(x);
+	}
+
+	public void executeElse(){
+		CCommand x = new CCommand(getElse(), null, sender, exec);
+		x.execute();
+		waitUntilDone(x);
 	}
 	
-	public void executeElse(){
-		Executor x = new Executor(getElse(), this);
-		x.execute();
+	private void waitUntilDone(final CCommand x) {
+		waiter = Bukkit.getScheduler().scheduleSyncRepeatingTask(ConsoleScript.plugin, new Runnable(){
+			@Override
+			public void run() {
+				if(x.isDone){
+					Bukkit.getScheduler().cancelTask(waiter);
+					setDone();
+				}
+			}
+		}, 5L, 5L);
 	}
 	
 	public boolean isCondition(){
