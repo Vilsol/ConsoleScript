@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class Script {
 
@@ -13,17 +12,19 @@ public class Script {
 	private CommandSender sender;
 	private int line;
 	private boolean run;
-	private Player executor;
+	private CommandSender executor;
+	private boolean silent;
 	
-	Script(String name, ConsoleScript plugin){
+	Script(String name, ConsoleScript plugin, boolean silent){
 		this.name = name;
 		this.run = true;
 		this.line = 0;
+		this.silent = silent;
 		ConsoleScript.runningScripts.put(name, this);
 		this.commands = plugin.getConfig().getStringList("Scripts." + name + ".Commands");
 	}
 
-	public void setExecutor(Player plr){
+	public void setExecutor(CommandSender plr){
 		this.executor = plr;
 	}
 	
@@ -39,7 +40,7 @@ public class Script {
 	public void finished(){
 		ConsoleScript.runningScripts.remove(name);
 		run = false;
-		if(sender != null) sender.sendMessage(Utils.prefix + "Script " + ChatColor.GREEN + name + ChatColor.AQUA + " finished!");
+		if(sender != null && !silent) sender.sendMessage(Utils.prefix + "Script " + ChatColor.GREEN + name + ChatColor.AQUA + " finished!");
 	}
 	
 	public void next(){
@@ -54,7 +55,7 @@ public class Script {
 	}
 	
 	public void run() {
-		if(sender != null) sender.sendMessage(Utils.prefix + "Script " + ChatColor.GREEN + name + ChatColor.AQUA + " started!");
+		if(sender != null && !silent) sender.sendMessage(Utils.prefix + "Script " + ChatColor.GREEN + name + ChatColor.AQUA + " started!");
 		next();
 	}
 

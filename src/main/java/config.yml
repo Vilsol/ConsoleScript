@@ -31,3 +31,14 @@ Scripts:
     - if world %w israining then say It is raining else say It is not raining end
     - if world %w isday then say It is daytime else say It is not daytime end
     - if world %w isnight then say It is nighttime else say It is not nighttime end
+  IAmSneaking:
+    Commands:
+    - say Still sneaking!
+    - delay 1
+  Whiler:
+    Commands:
+    - say Waiting until sneaking...
+    - wait until player %p issneaking end
+    - say Started sneaking!
+    - while player %p issneaking do run IAmSneaking end
+    - say Not sneaking anymore!

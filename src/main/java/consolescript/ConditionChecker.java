@@ -19,7 +19,7 @@ public class ConditionChecker {
 		}
 	}
 
-	private boolean checkCondition() {
+	public boolean checkCondition() {
 		if(div[0].equalsIgnoreCase("player")){
 			if(div.length > 1){
 				OfflinePlayer oplr = Bukkit.getOfflinePlayer(div[1]);

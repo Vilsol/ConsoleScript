@@ -2,7 +2,6 @@ package consolescript;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CCommand {
 
@@ -10,17 +9,17 @@ public class CCommand {
 	private boolean isDone;
 	public Script script;
 	public CommandSender sender;
-	public Player exec;
+	public CommandSender exec;
 	private int waiter;
 	
-	public CCommand(String command, Script script, CommandSender sender, Player executor){
+	public CCommand(String command, Script script, CommandSender sender, CommandSender executor){
 		this.script = script;
 		this.sender = sender;
 		this.exec = executor;
 		this.cmd = Utils.populateCommand(command, this);
 	}
 
-	private String argString(){
+	public String argString(){
 		for(int i = 0; i < cmd.length(); i++){
 			if(cmd.substring(i, i + 1).matches("^\\s*$")){
 				return cmd.substring(i + 1);
@@ -43,7 +42,7 @@ public class CCommand {
 	
 	public void execute(){
 		if(!isCondition()){
-			Executor x = new Executor(cmd, this);
+			Executor x = new Executor(cmd, this, sender);
 			if(this.exec != null){
 				x.setExecutor(exec);
 			}
@@ -144,6 +143,10 @@ public class CCommand {
 	
 	public boolean isDone() {
 		return isDone;
+	}
+	
+	public void reset(){
+		isDone = false;
 	}
 	
 }

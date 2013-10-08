@@ -13,7 +13,7 @@ public class Utils {
 
 	public static String prefix = ChatColor.GOLD + "[C] " + ChatColor.AQUA;
 	public static String prefixe = ChatColor.GOLD + "[C] " + ChatColor.DARK_RED;
-	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript");
+	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait");
 	
 	public static boolean doesScriptExist(String scriptname){
 		return ConsoleScript.plugin.getConfig().isSet("Scripts." + scriptname);
@@ -80,7 +80,7 @@ public class Utils {
 	public static void startScript(String scriptname, CommandSender sender) {
 		if(doesScriptExist(scriptname)){
 			if(!isScriptRunning(scriptname)){
-				Script script = new Script(scriptname, ConsoleScript.plugin);
+				Script script = new Script(scriptname, ConsoleScript.plugin, false);
 				if(sender != null){
 					script.setSender(sender);
 				}
@@ -114,7 +114,9 @@ public class Utils {
 		Player plr = null;
 		
 		if(cc.exec != null){
-			plr = cc.exec;
+			if(cc.exec instanceof Player){
+				plr = (Player) cc.exec;
+			}
 		}else if(cc.sender != null){
 			if(cc.sender instanceof Player){
 				plr = (Player) cc.sender;
