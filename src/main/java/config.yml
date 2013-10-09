@@ -42,3 +42,6 @@ Scripts:
     - say Started sneaking!
     - while player %p issneaking do run IAmSneaking end
     - say Not sneaking anymore!
+  Container:
+    Commands:
+    - if world %w contains 10+ animal chicken then say This world has 10 or more chickens! else say No chickens here! end

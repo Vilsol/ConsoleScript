@@ -1,8 +1,13 @@
 package consolescript;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
 public class ConditionChecker {
@@ -64,6 +69,152 @@ public class ConditionChecker {
 						}else if(div[2].equalsIgnoreCase("isnight")){
 							return (wld.getTime() >= 12000);
 						}
+					}else if(div.length == 5 || div.length == 6){
+						if(div[2].equalsIgnoreCase("contains")){
+							if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
+								boolean alone = true;
+								boolean plus = false;
+								int count = 0;
+								if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
+									alone = false;
+									plus = true;
+								}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
+									alone = false;
+								}
+
+								if(div[4].equalsIgnoreCase("player")){
+									Bukkit.broadcastMessage(div.length + " - " + div[2] + " - " + ifcond);
+									if(wld.getPlayers() != null){
+										if(div.length == 6){
+											for(Player p : wld.getPlayers()){
+												if(p.getName().equalsIgnoreCase(div[5])){
+													count++;
+												}
+											}
+										}else{
+											count = wld.getPlayers().size();
+										}
+									}
+								}else if(div[4].equalsIgnoreCase("mob")){
+									if(div.length == 6){
+										if(Utils.isEntity(div[5])){
+											for(Entity e : wld.getEntities()){
+												if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
+													count++;
+												}
+											}
+										}
+									}else{
+										for(Entity e : wld.getEntities()){
+											if(e instanceof Monster){
+												count++;
+											}
+										}
+									}
+								}else if(div[4].equalsIgnoreCase("animal")){
+									if(div.length == 6){
+										if(Utils.isEntity(div[5])){
+											for(Entity e : wld.getEntities()){
+												if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
+													count++;
+												}
+											}
+										}
+									}else{
+										for(Entity e : wld.getEntities()){
+											if(e instanceof Animals){
+												count++;
+											}
+										}
+									}
+								}else if(div[4].equalsIgnoreCase("item")){
+									if(div.length == 6){
+										if(Utils.isInteger(div[5]) && Material.getMaterial(div[5]) != null){
+											for(Entity e : wld.getEntities()){
+												if(e instanceof Item){
+													Item i = (Item) e;
+													if(i.getItemStack().getType().equals(Material.getMaterial(div[5]))){
+														count++;
+													}
+												}
+											}
+										}
+									}else{
+										for(Entity e : wld.getEntities()){
+											if(e instanceof Item){
+												count++;
+											}
+										}
+									}
+								}
+								Bukkit.broadcastMessage(count + " - " + div[3]);
+								if(alone){
+									return (Integer.parseInt(div[3]) == count);
+								}else{
+									if(plus){
+										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= count);
+									}else{
+										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= count);
+									}
+								}
+								
+							}
+						}
+					}
+				}
+			}
+		}else if(div[0].equalsIgnoreCase("region")){
+			if(div.length == 5 || div.length == 6){
+				if(div[2].equalsIgnoreCase("contains")){
+					if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
+						boolean alone = true;
+						boolean plus = false;
+						int count = 0;
+						if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
+							alone = false;
+							plus = true;
+						}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
+							alone = false;
+						}
+
+						if(div[4].equalsIgnoreCase("player")){
+							// TODO Placeholder for regions
+						}else if(div[4].equalsIgnoreCase("mob")){
+							if(div.length == 6){
+								if(Utils.isEntity(div[5])){
+									// TODO Placeholder for regions
+								}
+							}else{
+								// TODO Placeholder for regions
+							}
+						}else if(div[4].equalsIgnoreCase("animal")){
+							if(div.length == 6){
+								if(Utils.isEntity(div[5])){
+									// TODO Placeholder for regions
+								}
+							}else{
+								// TODO Placeholder for regions
+							}
+						}else if(div[4].equalsIgnoreCase("item")){
+							if(div.length == 6){
+								if(Utils.isInteger(div[5]) && Material.getMaterial(div[5]) != null){
+									// TODO Placeholder for regions
+								}
+							}else{
+								// TODO Placeholder for regions
+							}
+						}
+						
+						if(alone){
+							return (Integer.parseInt(div[3]) == count);
+						}else{
+							if(plus){
+								return (Integer.parseInt(div[3]) >= count);
+							}else{
+								return (Integer.parseInt(div[3]) <= count);
+							}
+						}
+						
 					}
 				}
 			}

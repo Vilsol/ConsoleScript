@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class Utils {
@@ -80,6 +81,13 @@ public class Utils {
 	
 	public static void noPerms(CommandSender sender){
 		sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
+	}
+	
+	public static boolean isEntity(String ent){
+		for(EntityType e : EntityType.values()){
+			if(e.name().toLowerCase().equalsIgnoreCase(ent)) return true;
+		}
+		return false;
 	}
 	
 	public static void startScript(String scriptname, CommandSender sender) {
