@@ -1,6 +1,8 @@
 package consolescript;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 public class Executor {
@@ -21,6 +23,7 @@ public class Executor {
 		this.exec = plr;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void execute() {
 		String com = cc.getCommand().toLowerCase();
 		boolean complete = true;
@@ -36,9 +39,14 @@ public class Executor {
 			if(com.equalsIgnoreCase("delay")){
 				if(cc.getArgs() != null && cc.getArgs().length > 0){
 					if(cc.getArgs().length == 1){
-						if(cc.isInteger(0)){
+						if(cc.isInteger(0) || Utils.isInteger(cc.getArgs()[0].substring(0, cc.getArgs()[0].length() - 1))){
 							complete = false;
-							Long delay = new Long(cc.getArgs()[0]) * 20L;
+							Long delay = 20L;
+							if(cc.isInteger(0)){
+								delay = new Long(cc.getArgs()[0]) * 20L;
+							}else{
+								delay = new Long(Integer.parseInt(cc.getArgs()[0].substring(0, cc.getArgs()[0].length() - 1)));
+							}
 							Bukkit.getScheduler().scheduleSyncDelayedTask(ConsoleScript.plugin, new Runnable(){
 								@Override
 								public void run() {
@@ -122,6 +130,17 @@ public class Executor {
 							}
 						}, 5L, 5L);
 						complete = false;
+					}
+				}
+			}else if(com.equalsIgnoreCase("setblock")){
+				if(cc.getArgs().length == 5){
+					if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3) && cc.isInteger(4)){
+						World wld = Bukkit.getWorld(cc.getArgs()[0]);
+						if(wld != null){
+							if(Material.getMaterial(Integer.parseInt(cc.getArgs()[4])) != null){
+								wld.getBlockAt(Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3])).setTypeId(Integer.parseInt(cc.getArgs()[4]));
+							}
+						}
 					}
 				}
 			}
