@@ -42,5 +42,9 @@ public class WhileTask {
 			}, 5L, 5L);
 		}
 	}
+
+	public void stop() {
+		Bukkit.getScheduler().cancelTask(checker);
+	}
 	
 }

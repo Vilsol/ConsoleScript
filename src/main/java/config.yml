@@ -45,3 +45,8 @@ Scripts:
   Container:
     Commands:
     - if world %w contains 10+ animal chicken then say This world has 10 or more chickens! else say No chickens here! end
+  Regionizer:
+    Commands:
+    - say Waiting for some gold...
+    - wait until region world-cauldron contains 3+ item 266 end
+    - say You have thrown in 3 or more gold in the cauldron!

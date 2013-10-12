@@ -14,6 +14,7 @@ public class Script {
 	private boolean run;
 	private CommandSender executor;
 	private boolean silent;
+	private CCommand current;
 	
 	Script(String name, ConsoleScript plugin, boolean silent){
 		this.name = name;
@@ -35,6 +36,7 @@ public class Script {
 	public void stop() {
 		ConsoleScript.runningScripts.remove(name);
 		run = false;
+		current.run = false;
 	}
 	
 	public void finished(){
@@ -47,6 +49,7 @@ public class Script {
 		if(!run) return;
 		if(this.line < commands.size()){
 			CCommand x = new CCommand(commands.get(this.line), this, sender, executor);
+			current = x;
 			this.line += 1;
 			x.execute();
 		}else{

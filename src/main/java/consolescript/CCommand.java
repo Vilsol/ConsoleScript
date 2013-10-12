@@ -11,6 +11,7 @@ public class CCommand {
 	public CommandSender sender;
 	public CommandSender exec;
 	private int waiter;
+	public boolean run = true;
 	
 	public CCommand(String command, Script script, CommandSender sender, CommandSender executor){
 		this.script = script;

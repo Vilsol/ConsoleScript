@@ -9,20 +9,31 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.base.Joiner;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ConsoleScript extends JavaPlugin {
 
 	public static Map<String, Script> runningScripts = new HashMap<String, Script>();
 	public static ConsoleScript plugin;
+	public static Plugin WorldGuard;
 	
 	public void onEnable(){
 		loadConfig();
 		plugin = this;
+		loadWorldGuard();
 	}
 	
+	private void loadWorldGuard() {
+		WorldGuard = getServer().getPluginManager().getPlugin("WorldGuard");
+	    if (WorldGuard == null || !(WorldGuard instanceof WorldGuardPlugin)){
+	    	getLogger().warning("WorldGuard not found!");
+	    }
+	}
+
 	private void loadConfig() {
 		InputStream defConfigStream = getResource("config.yml");
     	YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);

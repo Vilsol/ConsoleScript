@@ -1,14 +1,19 @@
 package consolescript;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class Utils {
 
@@ -31,7 +36,8 @@ public class Utils {
 	public static void stopScript(String scriptname, CommandSender sender) {
 		if(doesScriptExist(scriptname)){
 			if(isScriptRunning(scriptname)){
-				
+				ConsoleScript.runningScripts.get(scriptname).stop();
+				if(sender != null) sender.sendMessage(prefix + scriptname + " has been stopped!");
 			}else{
 				if(sender != null) sender.sendMessage(prefixe + scriptname + " is not running!");
 			}
@@ -154,6 +160,26 @@ public class Utils {
 			}
 		}
 		return false;
+	}
+	
+	public static List<Player> getRegionPlayers(ProtectedRegion reg, World wld) {
+		List<Player> players = new ArrayList<Player>();
+		for(Player plr : wld.getPlayers()){
+			if(reg.contains(plr.getLocation().getBlockX(), plr.getLocation().getBlockY(), plr.getLocation().getBlockZ())){
+				players.add(plr);
+			}
+		}
+		return players;
+	}
+	
+	public static List<Entity> getRegionEntities(ProtectedRegion reg, World wld) {
+		List<Entity> entities = new ArrayList<Entity>();
+		for(Entity ent : wld.getEntities()){
+			if(reg.contains(ent.getLocation().getBlockX(), ent.getLocation().getBlockY(), ent.getLocation().getBlockZ())){
+				entities.add(ent);
+			}
+		}
+		return entities;
 	}
 	
 }
