@@ -33,11 +33,11 @@ public class Utils {
 		return ConsoleScript.runningScripts.containsKey(scriptname);
 	}
 	
-	public static void stopScript(String scriptname, CommandSender sender) {
+	public static void stopScript(String scriptname, CommandSender sender, boolean b) {
 		if(doesScriptExist(scriptname)){
 			if(isScriptRunning(scriptname)){
-				ConsoleScript.runningScripts.get(scriptname).stop();
-				if(sender != null) sender.sendMessage(prefix + scriptname + " has been stopped!");
+				ConsoleScript.runningScripts.get(scriptname).stop(b);
+				ConsoleScript.runningScripts.remove(scriptname);
 			}else{
 				if(sender != null) sender.sendMessage(prefixe + scriptname + " is not running!");
 			}
@@ -56,11 +56,14 @@ public class Utils {
 	}
 
 	public static void stopAllScripts() {
-		if(ConsoleScript.runningScripts.size() > 0){
-			for(Script s : ConsoleScript.runningScripts.values()){
-				s.stop();
+		if(ConsoleScript.runningScripts != null){
+			if(ConsoleScript.runningScripts.size() > 0){
+				for(Script s : ConsoleScript.runningScripts.values()){
+					s.stop();
+				}
 			}
 		}
+		ConsoleScript.runningScripts.clear();
 	}
 
 	public static void info(String msg){

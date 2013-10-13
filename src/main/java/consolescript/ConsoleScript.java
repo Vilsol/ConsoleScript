@@ -62,7 +62,7 @@ public class ConsoleScript extends JavaPlugin {
 			}else if(com.equalsIgnoreCase("stop")){
 				if(args.length >= 2){
 					if(sender.hasPermission("cscript.stop") || sender.hasPermission("cscript.stop." + args[1])){
-						Utils.stopScript(args[1], sender);
+						Utils.stopScript(args[1], sender, false);
 					}else{
 						sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
 					}

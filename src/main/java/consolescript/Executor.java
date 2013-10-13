@@ -95,7 +95,7 @@ public class Executor {
 					}
 				}
 			}else if(com.equalsIgnoreCase("stopscript")){
-				cc.script.stop();
+				Utils.stopScript(cc.script.name, null, false);
 			}else if(com.equalsIgnoreCase("while")){
 				if(cc.getArgs().length > 3){
 					if(cc.argString().contains("do") && cc.argString().contains("end")){

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 public class Script {
 
-	private String name;
+	public String name;
 	private List<String> commands;
 	private CommandSender sender;
 	private int line;
@@ -32,10 +32,14 @@ public class Script {
 		this.sender = send;
 	}
 	
-	public void stop() {
-		ConsoleScript.runningScripts.remove(name);
+	public void stop(){
+		stop(false);
+	}
+	
+	public void stop(boolean nonforce) {
 		run = false;
 		current.run = false;
+		if(sender != null && !silent && !nonforce) sender.sendMessage(Utils.prefixe + "Script " + ChatColor.RED + name + ChatColor.DARK_RED + " has been forcibly stopped!");
 	}
 	
 	public void finished(){
