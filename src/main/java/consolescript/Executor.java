@@ -1,9 +1,15 @@
 package consolescript;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Monster;
+import org.bukkit.inventory.ItemStack;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -161,7 +167,7 @@ public class Executor {
 						if(cc.getArgs()[2].contains("-")){
 							World wld = Bukkit.getWorld(cc.getArgs()[2].split("-")[0]);
 							if(wld != null){
-								ProtectedRegion reg = WGBukkit.getRegionManager(Bukkit.getWorld(cc.getArgs()[2].split("-")[0])).getRegion(cc.getArgs()[2].split("-")[1]);
+								ProtectedRegion reg = WGBukkit.getRegionManager(wld).getRegion(cc.getArgs()[2].split("-")[1]);
 								if(reg != null){
 									RegionCounter RC = new RegionCounter(wld, reg, cc.getArgs(), -1, -1);
 									setting = RC.count + "";
@@ -182,6 +188,51 @@ public class Executor {
 						Utils.setGlobalVariable(cc.getArgs()[0], setting);
 					}else{
 						Utils.setLocalVariable(cc.script.name, cc.getArgs()[0], setting);
+					}
+				}
+			}else if(com.equalsIgnoreCase("region")){
+				if(cc.getArgs().length >= 2){
+					if(cc.getArgs()[0].contains("-")){
+						World wld = Bukkit.getWorld(cc.getArgs()[0].split("-")[0]);
+						if(wld != null){
+							ProtectedRegion reg = WGBukkit.getRegionManager(wld).getRegion(cc.getArgs()[0].split("-")[1]);
+							if(reg != null){
+								if(cc.getArgs()[1].equalsIgnoreCase("killallmobs")){
+									for(Entity e : Utils.getRegionEntities(reg, wld)){
+										if(e instanceof Monster){
+											if(e.isValid()) e.remove();
+										}
+									}
+								}else if(cc.getArgs()[1].equalsIgnoreCase("killallanimals")){
+									for(Entity e : Utils.getRegionEntities(reg, wld)){
+										if(e instanceof Animals){
+											if(e.isValid()) e.remove();
+										}
+									}
+								}else if(cc.getArgs()[1].equalsIgnoreCase("removeallitems")){
+									for(Entity e : Utils.getRegionEntities(reg, wld)){
+										if(e instanceof Item){
+											if(e.isValid()) e.remove();
+										}
+									}
+								}else if(cc.getArgs()[1].equalsIgnoreCase("removeeverything")){
+									for(Entity e : Utils.getRegionEntities(reg, wld)){
+										if(e.isValid()) e.remove();
+									}
+								}
+							}
+						}
+					}
+				}
+			}else if(com.equalsIgnoreCase("dropitem")){
+				if(cc.getArgs().length >= 6){
+					World wld = Bukkit.getWorld(cc.getArgs()[0]);
+					if(wld != null){
+						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3) && cc.isInteger(4) && cc.isInteger(5)){
+							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
+							ItemStack it = new ItemStack(Integer.parseInt(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
+							wld.dropItem(dropLocation, it);
+						}
 					}
 				}
 			}
