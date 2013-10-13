@@ -70,11 +70,21 @@ public class ConditionChecker {
 					}else if(div.length == 5 || div.length == 6){
 						if(div[2].equalsIgnoreCase("contains")){
 							if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
-								WorldCounter WC = new WorldCounter(wld, div);
-								if(WC.alone){
+								boolean alone = true;
+								boolean plus = false;
+								
+								if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
+									alone = false;
+									plus = true;
+								}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
+									alone = false;
+								}
+								
+								WorldCounter WC = new WorldCounter(wld, div, 0, 0);
+								if(alone){
 									return (Integer.parseInt(div[3]) == WC.count);
 								}else{
-									if(WC.plus){
+									if(plus){
 										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= WC.count);
 									}else{
 										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= WC.count);
@@ -95,11 +105,21 @@ public class ConditionChecker {
 						if(reg != null){
 							if(div[2].equalsIgnoreCase("contains")){
 								if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
-									RegionCounter RC = new RegionCounter(wld, reg, div);
-									if(RC.alone){
+									boolean alone = true;
+									boolean plus = false;
+									
+									if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
+										alone = false;
+										plus = true;
+									}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
+										alone = false;
+									}
+									
+									RegionCounter RC = new RegionCounter(wld, reg, div, 0, 0);
+									if(alone){
 										return (Integer.parseInt(div[3]) == RC.count);
 									}else{
-										if(RC.plus){
+										if(plus){
 											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= RC.count);
 										}else{
 											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= RC.count);

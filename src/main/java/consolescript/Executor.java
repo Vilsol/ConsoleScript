@@ -5,6 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+
 public class Executor {
 
 	public String command;
@@ -141,6 +144,44 @@ public class Executor {
 								wld.getBlockAt(Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3])).setTypeId(Integer.parseInt(cc.getArgs()[4]));
 							}
 						}
+					}
+				}
+			}else if(com.equalsIgnoreCase("set") || com.equalsIgnoreCase("setl")){
+				boolean global = true;
+				String setting = null;
+				if(com.equalsIgnoreCase("setl")) global = false;
+				if(cc.getArgs().length >= 4){
+					if(cc.getArgs()[1].equalsIgnoreCase("world")){
+						World wld = Bukkit.getWorld(cc.getArgs()[2]);
+						if(wld != null){
+							WorldCounter WC = new WorldCounter(wld, cc.getArgs(), -1, -1);
+							setting = WC.count + "";
+						}
+					}else if(cc.getArgs()[1].equalsIgnoreCase("region")){
+						if(cc.getArgs()[2].contains("-")){
+							World wld = Bukkit.getWorld(cc.getArgs()[2].split("-")[0]);
+							if(wld != null){
+								ProtectedRegion reg = WGBukkit.getRegionManager(Bukkit.getWorld(cc.getArgs()[2].split("-")[0])).getRegion(cc.getArgs()[2].split("-")[1]);
+								if(reg != null){
+									RegionCounter RC = new RegionCounter(wld, reg, cc.getArgs(), -1, -1);
+									setting = RC.count + "";
+								}
+							}
+						}
+					}else if(cc.getArgs()[1].equalsIgnoreCase("random")){
+						if(Utils.isInteger(cc.getArgs()[2]) && Utils.isInteger(cc.getArgs()[3])){
+							int Min = Integer.parseInt(cc.getArgs()[2]);
+							int Max = Integer.parseInt(cc.getArgs()[3]);
+							setting = (Min + (int)(Math.random() * ((Max - Min) + 1))) + "";
+						}
+					}
+				}
+				
+				if(setting != null){
+					if(global){
+						Utils.setGlobalVariable(cc.getArgs()[0], setting);
+					}else{
+						Utils.setLocalVariable(cc.script.name, cc.getArgs()[0], setting);
 					}
 				}
 			}

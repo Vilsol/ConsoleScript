@@ -10,24 +10,15 @@ import org.bukkit.entity.Player;
 
 public class WorldCounter {
 
-	public boolean alone = true;
-	public boolean plus = false;
 	public int count = 0;
 	
 	@SuppressWarnings("deprecation")
-	public WorldCounter(World wld, String[]div){
-		if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
-			alone = false;
-			plus = true;
-		}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
-			alone = false;
-		}
-
-		if(div[4].equalsIgnoreCase("player")){
+	public WorldCounter(World wld, String[]div, int j, int l){
+		if(div[4 + j].equalsIgnoreCase("player")){
 			if(wld.getPlayers() != null){
-				if(div.length == 6){
+				if(div.length == 6 + l){
 					for(Player p : wld.getPlayers()){
-						if(p.getName().equalsIgnoreCase(div[5])){
+						if(p.getName().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -35,11 +26,11 @@ public class WorldCounter {
 					count = wld.getPlayers().size();
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("mob")){
-			if(div.length == 6){
-				if(Utils.isEntity(div[5])){
+		}else if(div[4 + j].equalsIgnoreCase("mob")){
+			if(div.length == 6 + l){
+				if(Utils.isEntity(div[5 + j])){
 					for(Entity e : wld.getEntities()){
-						if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
+						if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -51,11 +42,11 @@ public class WorldCounter {
 					}
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("animal")){
-			if(div.length == 6){
-				if(Utils.isEntity(div[5])){
+		}else if(div[4 + j].equalsIgnoreCase("animal")){
+			if(div.length == 6 + l){
+				if(Utils.isEntity(div[5 + j])){
 					for(Entity e : wld.getEntities()){
-						if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
+						if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -67,13 +58,13 @@ public class WorldCounter {
 					}
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("item")){
-			if(div.length == 6){
-				if(Utils.isInteger(div[5]) && Material.getMaterial(Integer.parseInt(div[5])) != null){
+		}else if(div[4 + j].equalsIgnoreCase("item")){
+			if(div.length == 6 + l){
+				if(Utils.isInteger(div[5 + j]) && Material.getMaterial(Integer.parseInt(div[5 + j])) != null){
 					for(Entity e : wld.getEntities()){
 						if(e instanceof Item){
 							Item i = (Item) e;
-							if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5])))){
+							if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5 + j])))){
 								count += i.getItemStack().getAmount();
 							}
 						}
@@ -82,7 +73,8 @@ public class WorldCounter {
 			}else{
 				for(Entity e : wld.getEntities()){
 					if(e instanceof Item){
-						count++;
+						Item i = (Item) e;
+						count += i.getItemStack().getAmount();
 					}
 				}
 			}

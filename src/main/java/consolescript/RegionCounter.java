@@ -12,24 +12,15 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class RegionCounter {
 
-	public boolean alone = true;
-	public boolean plus = false;
 	public int count = 0;
 	
 	@SuppressWarnings("deprecation")
-	public RegionCounter(World wld, ProtectedRegion reg, String[] div){
-		if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
-			alone = false;
-			plus = true;
-		}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
-			alone = false;
-		}
-
-		if(div[4].equalsIgnoreCase("player")){
+	public RegionCounter(World wld, ProtectedRegion reg, String[] div, int j, int l){
+		if(div[4 + j].equalsIgnoreCase("player")){
 			if(Utils.getRegionPlayers(reg, wld).size() > 0){
-				if(div.length == 6){
+				if(div.length == 6 + l){
 					for(Player plr : Utils.getRegionPlayers(reg, wld)){
-						if(plr.getName().equalsIgnoreCase(div[5])){
+						if(plr.getName().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -37,11 +28,11 @@ public class RegionCounter {
 					count = Utils.getRegionPlayers(reg, wld).size();
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("mob")){
-			if(div.length == 6){
-				if(Utils.isEntity(div[5])){
+		}else if(div[4 + j].equalsIgnoreCase("mob")){
+			if(div.length == 6 + l){
+				if(Utils.isEntity(div[5 + j])){
 					for(Entity e : Utils.getRegionEntities(reg, wld)){
-						if(e.getType().name().equalsIgnoreCase(div[5])){
+						if(e.getType().name().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -53,11 +44,11 @@ public class RegionCounter {
 					}
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("animal")){
-			if(div.length == 6){
-				if(Utils.isEntity(div[5])){
+		}else if(div[4 + j].equalsIgnoreCase("animal")){
+			if(div.length == 6 + l){
+				if(Utils.isEntity(div[5 + j])){
 					for(Entity e : Utils.getRegionEntities(reg, wld)){
-						if(e.getType().name().equalsIgnoreCase(div[5])){
+						if(e.getType().name().equalsIgnoreCase(div[5 + j])){
 							count++;
 						}
 					}
@@ -69,13 +60,13 @@ public class RegionCounter {
 					}
 				}
 			}
-		}else if(div[4].equalsIgnoreCase("item")){
-			if(div.length == 6){
-				if(Utils.isInteger(div[5]) && Material.getMaterial(Integer.parseInt(div[5])) != null){
+		}else if(div[4 + j].equalsIgnoreCase("item")){
+			if(div.length == 6 + l){
+				if(Utils.isInteger(div[5 + j]) && Material.getMaterial(Integer.parseInt(div[5 + j])) != null){
 					for(Entity e : Utils.getRegionEntities(reg, wld)){
 						if(e instanceof Item){
 							Item i = (Item) e;
-							if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5])))){
+							if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5 + j])))){
 								count += i.getItemStack().getAmount();
 							}
 						}
@@ -84,7 +75,8 @@ public class RegionCounter {
 			}else{
 				for(Entity e : Utils.getRegionEntities(reg, wld)){
 					if(e instanceof Item){
-						count++;
+						Item i = (Item) e;
+						count += i.getItemStack().getAmount();
 					}
 				}
 			}

@@ -19,7 +19,7 @@ public class Utils {
 
 	public static String prefix = ChatColor.GOLD + "[C] " + ChatColor.AQUA;
 	public static String prefixe = ChatColor.GOLD + "[C] " + ChatColor.DARK_RED;
-	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock");
+	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock", "set", "setl");
 	
 	public static boolean doesScriptExist(String scriptname){
 		return ConsoleScript.plugin.getConfig().isSet("Scripts." + scriptname);
@@ -144,6 +144,17 @@ public class Utils {
 			command = command.replaceAll("%w", plr.getWorld().getName());
 		}
 		
+		if(ConsoleScript.plugin.getConfig().isSet("Scripts." + cc.script.name + ".Variables") && ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.script.name + ".Variables.").getKeys(false) != null){
+			for(String d : ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.script.name + ".Variables.").getKeys(false)){
+				command = command.replaceAll("%" + d + "%", ConsoleScript.plugin.getConfig().getString("Scripts." + cc.script.name + ".Variables." + d));
+			}
+		}
+
+		if(ConsoleScript.plugin.getConfig().isSet("Variables") && ConsoleScript.plugin.getConfig().getConfigurationSection("Variables.").getKeys(false) != null){
+			for(String d : ConsoleScript.plugin.getConfig().getConfigurationSection("Variables.").getKeys(false)){
+				command = command.replaceAll("%" + d + "%", ConsoleScript.plugin.getConfig().getString("Variables." + d));
+			}
+		}
 		return command;
 	}
 	
@@ -174,6 +185,16 @@ public class Utils {
 			}
 		}
 		return entities;
+	}
+	
+	public static void setLocalVariable(String script, String name, String variable){
+		ConsoleScript.plugin.getConfig().set("Scripts." + script + ".Variables." + name, variable);
+		ConsoleScript.plugin.saveConfig();
+	}
+	
+	public static void setGlobalVariable(String name, String variable){
+		ConsoleScript.plugin.getConfig().set("Variables." + name, variable);
+		ConsoleScript.plugin.saveConfig();
 	}
 	
 }
