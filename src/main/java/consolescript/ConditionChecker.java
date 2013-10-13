@@ -1,13 +1,8 @@
 package consolescript;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
@@ -27,7 +22,6 @@ public class ConditionChecker {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean checkCondition() {
 		if(div[0].equalsIgnoreCase("player")){
 			if(div.length > 1){
@@ -76,88 +70,14 @@ public class ConditionChecker {
 					}else if(div.length == 5 || div.length == 6){
 						if(div[2].equalsIgnoreCase("contains")){
 							if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
-								boolean alone = true;
-								boolean plus = false;
-								int count = 0;
-								if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
-									alone = false;
-									plus = true;
-								}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
-									alone = false;
-								}
-
-								if(div[4].equalsIgnoreCase("player")){
-									if(wld.getPlayers() != null){
-										if(div.length == 6){
-											for(Player p : wld.getPlayers()){
-												if(p.getName().equalsIgnoreCase(div[5])){
-													count++;
-												}
-											}
-										}else{
-											count = wld.getPlayers().size();
-										}
-									}
-								}else if(div[4].equalsIgnoreCase("mob")){
-									if(div.length == 6){
-										if(Utils.isEntity(div[5])){
-											for(Entity e : wld.getEntities()){
-												if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
-													count++;
-												}
-											}
-										}
-									}else{
-										for(Entity e : wld.getEntities()){
-											if(e instanceof Monster){
-												count++;
-											}
-										}
-									}
-								}else if(div[4].equalsIgnoreCase("animal")){
-									if(div.length == 6){
-										if(Utils.isEntity(div[5])){
-											for(Entity e : wld.getEntities()){
-												if(e.getType().name().toLowerCase().equalsIgnoreCase(div[5])){
-													count++;
-												}
-											}
-										}
-									}else{
-										for(Entity e : wld.getEntities()){
-											if(e instanceof Animals){
-												count++;
-											}
-										}
-									}
-								}else if(div[4].equalsIgnoreCase("item")){
-									if(div.length == 6){
-										if(Utils.isInteger(div[5]) && Material.getMaterial(Integer.parseInt(div[5])) != null){
-											for(Entity e : wld.getEntities()){
-												if(e instanceof Item){
-													Item i = (Item) e;
-													if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5])))){
-														count += i.getItemStack().getAmount();
-													}
-												}
-											}
-										}
-									}else{
-										for(Entity e : wld.getEntities()){
-											if(e instanceof Item){
-												count++;
-											}
-										}
-									}
-								}
-								
-								if(alone){
-									return (Integer.parseInt(div[3]) == count);
+								WorldCounter WC = new WorldCounter(wld, div);
+								if(WC.alone){
+									return (Integer.parseInt(div[3]) == WC.count);
 								}else{
-									if(plus){
-										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= count);
+									if(WC.plus){
+										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= WC.count);
 									}else{
-										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= count);
+										return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= WC.count);
 									}
 								}
 								
@@ -175,88 +95,14 @@ public class ConditionChecker {
 						if(reg != null){
 							if(div[2].equalsIgnoreCase("contains")){
 								if(Utils.isInteger(div[3]) || Utils.isInteger(div[3].substring(0, div[3].length() - 1))){
-									boolean alone = true;
-									boolean plus = false;
-									int count = 0;
-									if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("+")){
-										alone = false;
-										plus = true;
-									}else if(div[3].substring(div[3].length() - 1).equalsIgnoreCase("-")){
-										alone = false;
-									}
-			
-									if(div[4].equalsIgnoreCase("player")){
-										if(Utils.getRegionPlayers(reg, wld).size() > 0){
-											if(div.length == 6){
-												for(Player plr : Utils.getRegionPlayers(reg, wld)){
-													if(plr.getName().equalsIgnoreCase(div[5])){
-														count++;
-													}
-												}
-											}else{
-												count = Utils.getRegionPlayers(reg, wld).size();
-											}
-										}
-									}else if(div[4].equalsIgnoreCase("mob")){
-										if(div.length == 6){
-											if(Utils.isEntity(div[5])){
-												for(Entity e : Utils.getRegionEntities(reg, wld)){
-													if(e.getType().name().equalsIgnoreCase(div[5])){
-														count++;
-													}
-												}
-											}
-										}else{
-											for(Entity e : Utils.getRegionEntities(reg, wld)){
-												if(e instanceof Monster){
-													count++;
-												}
-											}
-										}
-									}else if(div[4].equalsIgnoreCase("animal")){
-										if(div.length == 6){
-											if(Utils.isEntity(div[5])){
-												for(Entity e : Utils.getRegionEntities(reg, wld)){
-													if(e.getType().name().equalsIgnoreCase(div[5])){
-														count++;
-													}
-												}
-											}
-										}else{
-											for(Entity e : Utils.getRegionEntities(reg, wld)){
-												if(e instanceof Animals){
-													count++;
-												}
-											}
-										}
-									}else if(div[4].equalsIgnoreCase("item")){
-										if(div.length == 6){
-											if(Utils.isInteger(div[5]) && Material.getMaterial(Integer.parseInt(div[5])) != null){
-												for(Entity e : Utils.getRegionEntities(reg, wld)){
-													if(e instanceof Item){
-														Item i = (Item) e;
-														if(i.getItemStack().getType().equals(Material.getMaterial(Integer.parseInt(div[5])))){
-															count += i.getItemStack().getAmount();
-														}
-													}
-												}
-											}
-										}else{
-											for(Entity e : Utils.getRegionEntities(reg, wld)){
-												if(e instanceof Item){
-													count++;
-												}
-											}
-										}
-									}
-									
-									if(alone){
-										return (Integer.parseInt(div[3]) == count);
+									RegionCounter RC = new RegionCounter(wld, reg, div);
+									if(RC.alone){
+										return (Integer.parseInt(div[3]) == RC.count);
 									}else{
-										if(plus){
-											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= count);
+										if(RC.plus){
+											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) <= RC.count);
 										}else{
-											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= count);
+											return (Integer.parseInt(div[3].substring(0, div[3].length() - 1)) >= RC.count);
 										}
 									}
 									
