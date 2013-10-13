@@ -224,6 +224,35 @@ public class Executor {
 						}
 					}
 				}
+			}else if(com.equalsIgnoreCase("world")){
+				if(cc.getArgs().length >= 2){
+					World wld = Bukkit.getWorld(cc.getArgs()[0]);
+					if(wld != null){
+						if(cc.getArgs()[1].equalsIgnoreCase("killallmobs")){
+							for(Entity e : wld.getEntities()){
+								if(e instanceof Monster){
+									if(e.isValid()) e.remove();
+								}
+							}
+						}else if(cc.getArgs()[1].equalsIgnoreCase("killallanimals")){
+							for(Entity e : wld.getEntities()){
+								if(e instanceof Animals){
+									if(e.isValid()) e.remove();
+								}
+							}
+						}else if(cc.getArgs()[1].equalsIgnoreCase("removeallitems")){
+							for(Entity e : wld.getEntities()){
+								if(e instanceof Item){
+									if(e.isValid()) e.remove();
+								}
+							}
+						}else if(cc.getArgs()[1].equalsIgnoreCase("removeeverything")){
+							for(Entity e : wld.getEntities()){
+								if(e.isValid()) e.remove();
+							}
+						}
+					}
+				}
 			}else if(com.equalsIgnoreCase("dropitem")){
 				if(cc.getArgs().length >= 6){
 					World wld = Bukkit.getWorld(cc.getArgs()[0]);

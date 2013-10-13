@@ -19,7 +19,7 @@ public class Utils {
 
 	public static String prefix = ChatColor.GOLD + "[C] " + ChatColor.AQUA;
 	public static String prefixe = ChatColor.GOLD + "[C] " + ChatColor.DARK_RED;
-	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock", "set", "setl", "region", "dropitem");
+	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock", "set", "setl", "region", "dropitem", "world");
 	
 	public static boolean doesScriptExist(String scriptname){
 		return ConsoleScript.plugin.getConfig().isSet("Scripts." + scriptname);
