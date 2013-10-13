@@ -56,8 +56,10 @@ public class Utils {
 	}
 
 	public static void stopAllScripts() {
-		for(Script s : ConsoleScript.runningScripts.values()){
-			s.stop();
+		if(ConsoleScript.runningScripts.size() > 0){
+			for(Script s : ConsoleScript.runningScripts.values()){
+				s.stop();
+			}
 		}
 	}
 
@@ -72,19 +74,7 @@ public class Utils {
 	public static void severe(String msg){
 		ConsoleScript.plugin.getLogger().severe(msg);
 	}
-	
-	public static void delayMe(String seconds, final Object wake){
-		Bukkit.broadcastMessage("wtf");
-		Bukkit.getScheduler().scheduleSyncDelayedTask(ConsoleScript.plugin, new Runnable(){
-			@Override
-			public void run() {
-				Bukkit.broadcastMessage("wtf2");
-				wake.notify();
-				Bukkit.broadcastMessage("wtf3");
-			}
-		}, new Long(seconds) * 20L);
-	}
-	
+
 	public static void noPerms(CommandSender sender){
 		sender.sendMessage(Utils.prefixe + "You don't have permission to use this command!");
 	}
@@ -100,6 +90,7 @@ public class Utils {
 		if(doesScriptExist(scriptname)){
 			if(!isScriptRunning(scriptname)){
 				Script script = new Script(scriptname, ConsoleScript.plugin, false);
+				ConsoleScript.runningScripts.put(scriptname, script);
 				if(sender != null){
 					script.setSender(sender);
 				}

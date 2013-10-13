@@ -21,7 +21,6 @@ public class Script {
 		this.run = true;
 		this.line = 0;
 		this.silent = silent;
-		ConsoleScript.runningScripts.put(name, this);
 		this.commands = plugin.getConfig().getStringList("Scripts." + name + ".Commands");
 	}
 
