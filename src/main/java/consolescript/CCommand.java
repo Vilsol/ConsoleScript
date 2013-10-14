@@ -12,12 +12,14 @@ public class CCommand {
 	public CommandSender exec;
 	private int waiter;
 	public boolean run = true;
+	public String scriptName;
 	
 	public CCommand(String command, Script script, CommandSender sender, CommandSender executor){
 		this.script = script;
 		this.sender = sender;
 		this.exec = executor;
 		this.cmd = Utils.populateCommand(command, this);
+		if(script != null) scriptName = script.name;
 	}
 
 	public String argString(){
@@ -148,6 +150,10 @@ public class CCommand {
 	
 	public void reset(){
 		isDone = false;
+	}
+	
+	public void setScriptName(String name){
+		scriptName = name;
 	}
 	
 }

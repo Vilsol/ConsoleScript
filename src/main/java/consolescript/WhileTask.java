@@ -13,10 +13,11 @@ public class WhileTask {
 	private boolean firstrun = true;
 	private ConditionChecker cc;
 	
-	WhileTask(String condition, String action, CommandSender sender){
+	WhileTask(String condition, String action, CommandSender sender, CCommand ccom){
 		cond = condition;
 		act = action;
 		if(action != null) comc = new CCommand(action, null, sender, null);
+		comc.setScriptName(ccom.script.name);
 		cc = new ConditionChecker(cond);
 		execute();
 	}

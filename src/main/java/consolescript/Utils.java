@@ -19,7 +19,7 @@ public class Utils {
 
 	public static String prefix = ChatColor.GOLD + "[C] " + ChatColor.AQUA;
 	public static String prefixe = ChatColor.GOLD + "[C] " + ChatColor.DARK_RED;
-	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock", "set", "setl", "region", "dropitem", "world");
+	public static List<String> functionalCommands = Arrays.asList("delay", "run", "stopscript", "while", "wait", "setblock", "set", "setl", "region", "dropitem", "world", "spawnmob");
 	
 	public static boolean doesScriptExist(String scriptname){
 		return ConsoleScript.plugin.getConfig().isSet("Scripts." + scriptname);
@@ -143,10 +143,11 @@ public class Utils {
 			command = command.replaceAll("%p", plr.getName());
 			command = command.replaceAll("%w", plr.getWorld().getName());
 		}
-		
-		if(ConsoleScript.plugin.getConfig().isSet("Scripts." + cc.script.name + ".Variables") && ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.script.name + ".Variables.").getKeys(false) != null){
-			for(String d : ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.script.name + ".Variables.").getKeys(false)){
-				command = command.replaceAll("%" + d + "%", ConsoleScript.plugin.getConfig().getString("Scripts." + cc.script.name + ".Variables." + d));
+
+		if(ConsoleScript.plugin.getConfig().isSet("Scripts." + cc.scriptName + ".Variables") && 
+				ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.scriptName + ".Variables.").getKeys(false) != null){
+			for(String d : ConsoleScript.plugin.getConfig().getConfigurationSection("Scripts." + cc.scriptName + ".Variables.").getKeys(false)){
+				command = command.replaceAll("%" + d + "%", ConsoleScript.plugin.getConfig().getString("Scripts." + cc.scriptName + ".Variables." + d));
 			}
 		}
 

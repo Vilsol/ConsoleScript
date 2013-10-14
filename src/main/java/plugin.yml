@@ -4,4 +4,4 @@ version: 1.0
 commands:
    cscript:
       description: Main ConsoleScript Command
-      usage: /<command> <run/stop/stopall/reload/list> [script]
+      usage: /<command> <run/stop/stopall/reload/list/running> [script]

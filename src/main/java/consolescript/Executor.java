@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
@@ -108,7 +109,7 @@ public class Executor {
 			}else if(com.equalsIgnoreCase("while")){
 				if(cc.getArgs().length > 3){
 					if(cc.argString().contains("do") && cc.argString().contains("end")){
-						final WhileTask wt = new WhileTask(cc.argString().split("do")[0], cc.argString().split("do")[1].substring(1), sender);
+						final WhileTask wt = new WhileTask(cc.argString().split("do")[0], cc.argString().split("do")[1].substring(1), sender, cc);
 						waiter = Bukkit.getScheduler().scheduleSyncRepeatingTask(ConsoleScript.plugin, new Runnable(){
 							@Override
 							public void run() {
@@ -261,6 +262,18 @@ public class Executor {
 							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
 							ItemStack it = new ItemStack(Integer.parseInt(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
 							wld.dropItem(dropLocation, it);
+						}
+					}
+				}
+			}else if(com.equalsIgnoreCase("spawnmob")){
+				if(cc.getArgs().length >= 5){
+					World wld = Bukkit.getWorld(cc.getArgs()[0]);
+					if(wld != null){
+						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3)){
+							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
+							if(Utils.isEntity(cc.getArgs()[4])){
+								wld.spawnEntity(dropLocation, EntityType.fromName(cc.getArgs()[4]));
+							}
 						}
 					}
 				}
