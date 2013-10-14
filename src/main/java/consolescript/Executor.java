@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -273,6 +274,20 @@ public class Executor {
 							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
 							if(Utils.isEntity(cc.getArgs()[4])){
 								wld.spawnEntity(dropLocation, EntityType.fromName(cc.getArgs()[4]));
+							}else if(Utils.isCustomEntity(cc.getArgs()[4])){
+								CustomEntity ce = new CustomEntity(cc.getArgs()[4]);
+								Entity custom = wld.spawnEntity(dropLocation, ce.getType());
+								if(custom instanceof Creature){
+									if(ce.getHead() != null) ((Creature) custom).getEquipment().setHelmet(ce.getHead());
+									if(ce.getBody() != null) ((Creature) custom).getEquipment().setChestplate(ce.getBody());
+									if(ce.getLegs() != null) ((Creature) custom).getEquipment().setLeggings(ce.getLegs());
+									if(ce.getFeet() != null) ((Creature) custom).getEquipment().setBoots(ce.getFeet());
+									if(ce.getWeapon() != null) ((Creature) custom).getEquipment().setItemInHand(ce.getWeapon());
+									if(ce.getName() != null){
+										((Creature) custom).setCustomName(ce.getName());
+										((Creature) custom).setCustomNameVisible(true);
+									}
+								}
 							}
 						}
 					}

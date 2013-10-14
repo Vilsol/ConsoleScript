@@ -197,5 +197,9 @@ public class Utils {
 		ConsoleScript.plugin.getConfig().set("Variables." + name, variable);
 		ConsoleScript.plugin.saveConfig();
 	}
+
+	public static boolean isCustomEntity(String ent) {
+		return (ConsoleScript.plugin.getConfig().isSet("Mobs." + ent + ".Type"));
+	}
 	
 }
