@@ -92,6 +92,14 @@ public class ConsoleScript extends JavaPlugin {
 						sender.sendMessage(Utils.prefixe + "No scripts defined!");
 					}
 				}
+			}else if(com.equalsIgnoreCase("running")){
+				if(sender.hasPermission("cscript.running")){
+					if(runningScripts.size() > 0){
+						sender.sendMessage(Utils.prefix + "Running scripts: " + ChatColor.GREEN + Joiner.on(ChatColor.AQUA + ", " + ChatColor.GREEN).join(runningScripts.keySet()));
+					}else{
+						sender.sendMessage(Utils.prefixe + "No scripts running!");
+					}
+				}
 			}else{
 				Utils.sendHelp(sender);
 			}
