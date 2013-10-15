@@ -36,7 +36,7 @@ public class CustomEntity {
 					for(String s : c.getConfigurationSection("Mobs." + name + ".Armor.Head.Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Armor.Head.Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Mobs." + name + ".Armor.Head.Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Head.Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Head.Enchantments." + s));
 							}
 						}
 					}
@@ -55,7 +55,7 @@ public class CustomEntity {
 					for(String s : c.getConfigurationSection("Mobs." + name + ".Armor.Body.Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Armor.Body.Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Mobs." + name + ".Armor.Body.Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Body.Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Body.Enchantments." + s));
 							}
 						}
 					}
@@ -74,7 +74,7 @@ public class CustomEntity {
 					for(String s : c.getConfigurationSection("Mobs." + name + ".Armor.Legs.Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Armor.Legs.Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Mobs." + name + ".Armor.Legs.Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Legs.Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Legs.Enchantments." + s));
 							}
 						}
 					}
@@ -93,7 +93,7 @@ public class CustomEntity {
 					for(String s : c.getConfigurationSection("Mobs." + name + ".Armor.Feet.Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Armor.Feet.Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Mobs." + name + ".Armor.Feet.Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Feet.Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Feet.Enchantments." + s));
 							}
 						}
 					}
