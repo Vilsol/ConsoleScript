@@ -2,6 +2,7 @@ package consolescript;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class ConsoleScript extends JavaPlugin {
 	public static Map<String, Script> runningScripts = new HashMap<String, Script>();
 	public static ConsoleScript plugin;
 	public static Plugin WorldGuard;
-	public static Map<Integer, String> customEntities = new HashMap<Integer, String>();
+	public static Map<Integer, List<String>> customEntities = new HashMap<Integer, List<String>>();
 	
 	public void onEnable(){
 		loadConfig();

@@ -2,6 +2,7 @@ package consolescript;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -21,9 +22,9 @@ public class CustomEntity {
 		c = ConsoleScript.plugin.getConfig();
 	}
 	
-	public String getItemDrop(){
+	public List<String> getItemDrop(){
 		if(c.isSet("Mobs." + name + ".Drops")){
-			return c.getString("Mobs." + name + ".Drops");
+			return c.getStringList("Mobs." + name + ".Drops");
 		}
 		return null;
 	}
