@@ -43,6 +43,9 @@ public class CustomEntity {
 					}
 				}
 				return i;
+			}else if(Utils.isCustomItem(c.getString("Mobs." + name + ".Armor.Head.Item"))){
+				CustomItem ci = new CustomItem(c.getString("Mobs." + name + ".Armor.Head.Item"));
+				return ci.getItemStack();
 			}
 		}
 		return null;
@@ -62,6 +65,9 @@ public class CustomEntity {
 					}
 				}
 				return i;
+			}else if(Utils.isCustomItem(c.getString("Mobs." + name + ".Armor.Body.Item"))){
+				CustomItem ci = new CustomItem(c.getString("Mobs." + name + ".Armor.Body.Item"));
+				return ci.getItemStack();
 			}
 		}
 		return null;
@@ -81,6 +87,9 @@ public class CustomEntity {
 					}
 				}
 				return i;
+			}else if(Utils.isCustomItem(c.getString("Mobs." + name + ".Armor.Legs.Item"))){
+				CustomItem ci = new CustomItem(c.getString("Mobs." + name + ".Armor.Legs.Item"));
+				return ci.getItemStack();
 			}
 		}
 		return null;
@@ -100,6 +109,9 @@ public class CustomEntity {
 					}
 				}
 				return i;
+			}else if(Utils.isCustomItem(c.getString("Mobs." + name + ".Armor.Feet.Item"))){
+				CustomItem ci = new CustomItem(c.getString("Mobs." + name + ".Armor.Feet.Item"));
+				return ci.getItemStack();
 			}
 		}
 		return null;
@@ -119,6 +131,9 @@ public class CustomEntity {
 					}
 				}
 				return i;
+			}else if(Utils.isCustomItem(c.getString("Mobs." + name + ".Armor.Weapon.Item"))){
+				CustomItem ci = new CustomItem(c.getString("Mobs." + name + ".Armor.Weapon.Item"));
+				return ci.getItemStack();
 			}
 		}
 		return null;
