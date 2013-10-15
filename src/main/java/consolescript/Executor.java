@@ -137,7 +137,12 @@ public class Executor {
 						waiter = Bukkit.getScheduler().scheduleSyncRepeatingTask(ConsoleScript.plugin, new Runnable(){
 							@Override
 							public void run() {
-								if(cond.checkCondition() || ! cc.run){
+								if(cond != null && cc != null){
+									if(cond.checkCondition() || ! cc.run){
+										Bukkit.getScheduler().cancelTask(waiter);
+										cc.setDone();
+									}
+								}else{
 									Bukkit.getScheduler().cancelTask(waiter);
 									cc.setDone();
 								}
