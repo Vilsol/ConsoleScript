@@ -259,10 +259,17 @@ public class Executor {
 				if(cc.getArgs().length >= 6){
 					World wld = Bukkit.getWorld(cc.getArgs()[0]);
 					if(wld != null){
-						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3) && cc.isInteger(4) && cc.isInteger(5)){
+						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3) && cc.isInteger(5)){
 							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
-							ItemStack it = new ItemStack(Integer.parseInt(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
-							wld.dropItem(dropLocation, it);
+							if(cc.isInteger(4)){
+								ItemStack it = new ItemStack(Integer.parseInt(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
+								wld.dropItem(dropLocation, it);
+							}else if(Utils.isCustomItem(cc.getArgs()[4])){
+								CustomItem it = new CustomItem(cc.getArgs()[4]);
+								ItemStack tospawn = it.getItemStack();
+								tospawn.setAmount(Integer.parseInt(cc.getArgs()[5]));
+								wld.dropItem(dropLocation, tospawn);
+							}
 						}
 					}
 				}

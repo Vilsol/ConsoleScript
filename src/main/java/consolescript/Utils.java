@@ -53,6 +53,7 @@ public class Utils {
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "stopall" + ChatColor.AQUA + " - Stop all scripts");
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "reload" + ChatColor.AQUA + " - Reload the config");
 		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "list" + ChatColor.AQUA + " - Lists all scripts");
+		sender.sendMessage(prefix + "/csript " + ChatColor.GREEN + "running" + ChatColor.AQUA + " - Lists all running scripts");
 	}
 
 	public static void stopAllScripts() {
@@ -200,6 +201,10 @@ public class Utils {
 
 	public static boolean isCustomEntity(String ent) {
 		return (ConsoleScript.plugin.getConfig().isSet("Mobs." + ent + ".Type"));
+	}
+
+	public static boolean isCustomItem(String item) {
+		return (ConsoleScript.plugin.getConfig().isSet("Items." + item + ".Item"));
 	}
 	
 }
