@@ -1,9 +1,14 @@
 package consolescript;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 @SuppressWarnings("deprecation")
 public class CustomEntity {
@@ -107,7 +112,7 @@ public class CustomEntity {
 					for(String s : c.getConfigurationSection("Mobs." + name + ".Armor.Weapon.Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Armor.Weapon.Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Mobs." + name + ".Armor.Weapon.Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Weapon.Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Mobs." + name + ".Armor.Weapon.Enchantments." + s));
 							}
 						}
 					}
@@ -125,6 +130,21 @@ public class CustomEntity {
 	public String getName() {
 		if(c.isSet("Mobs." + name + ".Name")){
 			return c.getString("Mobs." + name + ".Name");
+		}
+		return null;
+	}
+
+	public Collection<PotionEffect> getPotionEffects() {
+		if(c.isSet("Mobs." + name + ".Effects")){
+			Collection<PotionEffect> eff = new ArrayList<PotionEffect>();
+			for(String s : c.getConfigurationSection("Mobs." + name + ".Effects.").getKeys(false)){
+				if(Utils.isInteger(s) && Utils.isInteger(c.getString("Mobs." + name + ".Effects." + s))){
+					if(PotionEffectType.getById(Integer.parseInt(s)) != null){
+						eff.add(new PotionEffect(PotionEffectType.getById(Integer.parseInt(s)), 99999, c.getInt("Mobs." + name + ".Effects." + s)));
+					}
+				}
+			}
+			return eff;
 		}
 		return null;
 	}

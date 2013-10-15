@@ -293,6 +293,7 @@ public class Executor {
 									if(ce.getFeet() != null) ((Creature) custom).getEquipment().setBoots(ce.getFeet());
 									if(ce.getWeapon() != null) ((Creature) custom).getEquipment().setItemInHand(ce.getWeapon());
 									if(ce.getItemDrop() != null) ConsoleScript.customEntities.put(custom.getEntityId(), ce.getItemDrop());
+									if(ce.getPotionEffects() != null) ((Creature) custom).addPotionEffects(ce.getPotionEffects());
 									if(ce.getName() != null){
 										((Creature) custom).setCustomName(ce.getName());
 										((Creature) custom).setCustomNameVisible(true);
