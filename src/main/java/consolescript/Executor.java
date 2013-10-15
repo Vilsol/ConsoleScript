@@ -11,6 +11,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -283,11 +285,22 @@ public class Executor {
 					if(wld != null){
 						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3)){
 							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
-							if(Utils.isEntity(cc.getArgs()[4])){
-								wld.spawnEntity(dropLocation, EntityType.fromName(cc.getArgs()[4]));
+							if(Utils.isEntity(cc.getArgs()[4]) || cc.getArgs()[4].equalsIgnoreCase("witherskeleton")){
+								if(cc.getArgs()[4].equalsIgnoreCase("witherskeleton")){
+									Skeleton wither = (Skeleton) wld.spawnEntity(dropLocation, EntityType.SKELETON);
+									wither.setSkeletonType(SkeletonType.WITHER);
+								}else{
+									wld.spawnEntity(dropLocation, EntityType.fromName(cc.getArgs()[4]));
+								}
 							}else if(Utils.isCustomEntity(cc.getArgs()[4])){
 								CustomEntity ce = new CustomEntity(cc.getArgs()[4]);
-								Entity custom = wld.spawnEntity(dropLocation, ce.getType());
+								Entity custom = null;
+								if(ce.getTypeName().equalsIgnoreCase("witherskeleton")){
+									custom = wld.spawnEntity(dropLocation, EntityType.SKELETON);
+									((Skeleton) custom).setSkeletonType(SkeletonType.WITHER);
+								}else{
+									custom = wld.spawnEntity(dropLocation, ce.getType());
+								}
 								if(custom instanceof Creature){
 									if(ce.getHead() != null) ((Creature) custom).getEquipment().setHelmet(ce.getHead());
 									if(ce.getBody() != null) ((Creature) custom).getEquipment().setChestplate(ce.getBody());

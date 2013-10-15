@@ -142,6 +142,10 @@ public class CustomEntity {
 	public EntityType getType(){
 		return EntityType.fromName(c.getString("Mobs." + name + ".Type"));
 	}
+	
+	public String getTypeName(){
+		return c.getString("Mobs." + name + ".Type");
+	}
 
 	public String getName() {
 		if(c.isSet("Mobs." + name + ".Name")){
