@@ -12,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -270,7 +271,8 @@ public class Executor {
 								CustomItem it = new CustomItem(cc.getArgs()[4]);
 								ItemStack tospawn = it.getItemStack();
 								tospawn.setAmount(Integer.parseInt(cc.getArgs()[5]));
-								wld.dropItem(dropLocation, tospawn);
+								Entity ent = wld.dropItem(dropLocation, tospawn);
+								ent.setMetadata("IAmFromConsoleScript", new FixedMetadataValue(ConsoleScript.plugin, cc.getArgs()[4]));
 							}
 						}
 					}
@@ -303,6 +305,7 @@ public class Executor {
 										((Creature) custom).setCustomName(ce.getName());
 										((Creature) custom).setCustomNameVisible(true);
 									}
+									custom.setMetadata("IAmFromConsoleScript", new FixedMetadataValue(ConsoleScript.plugin, cc.getArgs()[4]));
 								}
 							}
 						}

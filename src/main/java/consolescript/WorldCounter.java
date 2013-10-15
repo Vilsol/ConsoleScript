@@ -78,6 +78,30 @@ public class WorldCounter {
 					}
 				}
 			}
+		}else if(div[4 + j].equalsIgnoreCase("custommob")){
+			if(div.length == 6 + l){
+				if(Utils.isCustomEntity(div[5 + j])){
+					for(Entity e : wld.getEntities()){
+						if(e.hasMetadata("IAmFromConsoleScript")){
+							if(e.getMetadata("IAmFromConsoleScript").get(0).asString().equalsIgnoreCase(div[5 + j])){
+								count++;
+							}
+						}
+					}
+				}
+			}
+		}else if(div[4 + j].equalsIgnoreCase("customitem")){
+			if(div.length == 6 + l){
+				for(Entity e : wld.getEntities()){
+					if(e instanceof Item){
+						if(e.hasMetadata("IAmFromConsoleScript")){
+							if(e.getMetadata("IAmFromConsoleScript").get(0).asString().equalsIgnoreCase(div[5 + j])){
+								count++;
+							}
+						}
+					}
+				}
+			}
 		}
 		
 	}
