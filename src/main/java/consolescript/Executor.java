@@ -261,9 +261,11 @@ public class Executor {
 					if(wld != null){
 						if(cc.isInteger(1) && cc.isInteger(2) && cc.isInteger(3) && cc.isInteger(5)){
 							Location dropLocation = new Location(wld, Integer.parseInt(cc.getArgs()[1]), Integer.parseInt(cc.getArgs()[2]), Integer.parseInt(cc.getArgs()[3]));
-							if(cc.isInteger(4)){
-								ItemStack it = new ItemStack(Integer.parseInt(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
-								wld.dropItem(dropLocation, it);
+							if(Utils.isInteger(cc.getArgs()[4])){
+								if(Material.getMaterial(Integer.parseInt(cc.getArgs()[4])) != null){
+									ItemStack it = new ItemStack(Material.getMaterial(cc.getArgs()[4]), Integer.parseInt(cc.getArgs()[5]));
+									wld.dropItem(dropLocation, it);
+								}
 							}else if(Utils.isCustomItem(cc.getArgs()[4])){
 								CustomItem it = new CustomItem(cc.getArgs()[4]);
 								ItemStack tospawn = it.getItemStack();
@@ -290,6 +292,7 @@ public class Executor {
 									if(ce.getLegs() != null) ((Creature) custom).getEquipment().setLeggings(ce.getLegs());
 									if(ce.getFeet() != null) ((Creature) custom).getEquipment().setBoots(ce.getFeet());
 									if(ce.getWeapon() != null) ((Creature) custom).getEquipment().setItemInHand(ce.getWeapon());
+									if(ce.getItemDrop() != null) ConsoleScript.customEntities.put(custom.getEntityId(), ce.getItemDrop());
 									if(ce.getName() != null){
 										((Creature) custom).setCustomName(ce.getName());
 										((Creature) custom).setCustomNameVisible(true);

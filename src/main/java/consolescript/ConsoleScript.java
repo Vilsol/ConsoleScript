@@ -20,11 +20,13 @@ public class ConsoleScript extends JavaPlugin {
 	public static Map<String, Script> runningScripts = new HashMap<String, Script>();
 	public static ConsoleScript plugin;
 	public static Plugin WorldGuard;
+	public static Map<Integer, String> customEntities = new HashMap<Integer, String>();
 	
 	public void onEnable(){
 		loadConfig();
 		plugin = this;
 		loadWorldGuard();
+		getServer().getPluginManager().registerEvents(new ConsoleScriptListener(), this);
 	}
 	
 	private void loadWorldGuard() {

@@ -16,6 +16,13 @@ public class CustomEntity {
 		c = ConsoleScript.plugin.getConfig();
 	}
 	
+	public String getItemDrop(){
+		if(c.isSet("Mobs." + name + ".Drops")){
+			return c.getString("Mobs." + name + ".Drops");
+		}
+		return null;
+	}
+	
 	public ItemStack getHead(){
 		if(c.isSet("Mobs." + name + ".Armor.Head.Item")){
 			if(Utils.isInteger(c.getString("Mobs." + name + ".Armor.Head.Item"))){
