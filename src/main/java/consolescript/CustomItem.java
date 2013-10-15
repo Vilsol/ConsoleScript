@@ -29,7 +29,7 @@ public class CustomItem {
 					for(String s : c.getConfigurationSection("Items." + name + ".Enchantments.").getKeys(false)){
 						if(Utils.isInteger(s) && Utils.isInteger(c.getString("Items." + name + ".Enchantments." + s))){
 							if(Enchantment.getById(c.getInt("Items." + name + ".Enchantments." + s)) != null){
-								i.addEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Items." + name + ".Enchantments." + s));
+								i.addUnsafeEnchantment(Enchantment.getById(Integer.parseInt(s)), c.getInt("Items." + name + ".Enchantments." + s));
 							}
 						}
 					}
