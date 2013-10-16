@@ -16,6 +16,13 @@ import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.sk89q.worldedit.BlockVector;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalPlayer;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.blocks.BaseBlock;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
@@ -324,6 +331,34 @@ public class Executor {
 										((Creature) custom).setCustomNameVisible(true);
 									}
 									custom.setMetadata("IAmFromConsoleScript", new FixedMetadataValue(ConsoleScript.plugin, cc.getArgs()[4]));
+								}
+							}
+						}
+					}
+				}
+			}else if(com.equalsIgnoreCase("setregionblocks")){
+				if(cc.getArgs().length >= 2){
+					if(cc.getArgs()[0].contains("-")){
+						World wld = Bukkit.getWorld(cc.getArgs()[0].split("-")[0]);
+						if(wld != null){
+							ProtectedRegion reg = WGBukkit.getRegionManager(wld).getRegion(cc.getArgs()[0].split("-")[1]);
+							if(reg != null){
+								if(cc.isInteger(1)){
+									if(Bukkit.getOnlinePlayers().length > 0){
+										BlockVector pos1 = reg.getMaximumPoint();
+										BlockVector pos2 = reg.getMinimumPoint();
+										
+										CuboidRegion cr = new CuboidRegion(pos2, pos1);
+										
+										LocalPlayer plr = ConsoleScript.WorldEdit.wrapPlayer(Bukkit.getOnlinePlayers()[0]);
+										Bukkit.broadcastMessage(Bukkit.getOnlinePlayers()[0].getDisplayName());
+										EditSession es = WorldEdit.getInstance().getSession(plr).createEditSession(plr);
+										
+										BaseBlock ba = new BaseBlock(Integer.parseInt(cc.getArgs()[1]));
+										try {
+											es.setBlocks(cr, ba);
+										} catch (MaxChangedBlocksException e) {}
+									}
 								}
 							}
 						}

@@ -14,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.base.Joiner;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ConsoleScript extends JavaPlugin {
@@ -21,18 +22,27 @@ public class ConsoleScript extends JavaPlugin {
 	public static Map<String, Script> runningScripts = new HashMap<String, Script>();
 	public static ConsoleScript plugin;
 	public static Plugin WorldGuard;
+	public static WorldEditPlugin WorldEdit;
 	public static Map<Integer, List<String>> customEntities = new HashMap<Integer, List<String>>();
 	
 	public void onEnable(){
 		loadConfig();
 		plugin = this;
 		loadWorldGuard();
+		loadWorldEdit();
 		getServer().getPluginManager().registerEvents(new ConsoleScriptListener(), this);
 	}
 	
 	private void loadWorldGuard() {
 		WorldGuard = getServer().getPluginManager().getPlugin("WorldGuard");
 	    if (WorldGuard == null || !(WorldGuard instanceof WorldGuardPlugin)){
+	    	getLogger().warning("WorldGuard not found!");
+	    }
+	}
+	
+	private void loadWorldEdit() {
+		WorldEdit = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
+	    if (WorldEdit == null || !(WorldEdit instanceof WorldEditPlugin)){
 	    	getLogger().warning("WorldGuard not found!");
 	    }
 	}
