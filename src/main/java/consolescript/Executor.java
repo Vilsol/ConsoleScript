@@ -351,7 +351,6 @@ public class Executor {
 										CuboidRegion cr = new CuboidRegion(pos2, pos1);
 										
 										LocalPlayer plr = ConsoleScript.WorldEdit.wrapPlayer(Bukkit.getOnlinePlayers()[0]);
-										Bukkit.broadcastMessage(Bukkit.getOnlinePlayers()[0].getDisplayName());
 										EditSession es = WorldEdit.getInstance().getSession(plr).createEditSession(plr);
 										
 										BaseBlock ba = new BaseBlock(Integer.parseInt(cc.getArgs()[1]));
